@@ -1,3 +1,5 @@
+Steps to solve the chalenge:
+
 1. Download the CSV file.
 2. Create a `.gitignore` file to exclude unnecessary files from the repository.
 3. Analyze the CSV file to identify entities that could benefit from normalization.
