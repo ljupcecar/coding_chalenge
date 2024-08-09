@@ -1,0 +1,16 @@
+1. Download the CSV file.
+2. Create a `.gitignore` file to exclude unnecessary files from the repository.
+3. Analyze the CSV file to identify entities that could benefit from normalization.
+4. Create a Python script to split the large CSV file into smaller, entity-based CSV files.
+5. Load the smaller CSV files into the database.
+6. Create relationships between tables using foreign keys.
+7. Create indexes based on the foreign keys.
+8. Develop stored procedures based on the requirements in the "Database Engineer: Coding Sample Instructions.pdf".
+9. Adjust indexes according to the needs of the stored procedures.
+10. Implement error handling within the procedures.
+11. Encapsulate logic and structure procedure calls following the Single Responsibility Principle, including explanations with comments.
+12. Testing:
+    1. Run tests with expected (good) results.
+    2. Run tests with no results.
+    3. Run tests with incorrect input parameters.
+13. Add the Python script, T-SQL script, smaller CSV files, and the database to GitHub.

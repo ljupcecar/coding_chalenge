@@ -1,0 +1,5 @@
+# ignore denormalized sample data
+csv/phoenix.csv
+
+# ignore task description file
+Database Engineer_ Coding Sample Instructions.pdf

@@ -1,0 +1,31 @@
+
+ Location Table:
+   `id` (Primary Key)
+   `location_name`
+   `postal_code`
+   `latitude`
+   `longitude`
+   `city`
+   `region`
+   `country_code`
+   `brand_id` (Foreign Key to `Brand` table)
+   `category_id` (Foreign Key to `Category` table)
+
+ Brand Table:
+   `brand_id` (Primary Key)
+   `brand_name`
+
+ Category Table:
+   `category_id` (Primary Key)
+   `top_category`
+   `sub_category`
+   `category_tags`
+
+ Operation Hours Table:
+   `location_id` (Foreign Key to `Location` table)
+   `operation_hours`
+
+ Geometry Table:
+   `location_id` (Foreign Key to `Location` table)
+   `geometry_type`
+   `polygon_wkt`

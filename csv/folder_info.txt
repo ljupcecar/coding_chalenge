@@ -1,0 +1,1 @@
+This folder contains the CSV files generated for normalizing the data from the "phoenix.csv" file.
