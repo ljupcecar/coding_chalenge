@@ -1,0 +1,40 @@
+├── python
+│   └── csv_normalization.py
+│
+├── csv
+│   ├── phoenix.csv
+│   └── normalized_csv_files
+│        ├── Location Table:
+│        │    ├── id (Primary Key)
+│        │    ├── location_name
+│        │    ├── postal_code
+│        │    ├── latitude
+│        │    ├── longitude
+│        │    ├── city
+│        │    ├── region
+│        │    ├── country_code
+│        │    ├── brand_id (Foreign Key to Brand Table)
+│        │    └── category_id (Foreign Key to Category Table)
+│        │
+│        ├── Brand Table:
+│        │    ├── brand_id (Primary Key)
+│        │    └── brand_name
+│        │
+│        ├── Category Table:
+│        │    ├── category_id (Primary Key)
+│        │    ├── top_category
+│        │    ├── sub_category
+│        │    └── category_tags
+│        │
+│        ├── Operation Hours Table:
+│        │    ├── location_id (Foreign Key to Location Table)
+│        │    └── operation_hours
+│        │
+│        └── Geometry Table:
+│             ├── location_id (Foreign Key to Location Table)
+│             ├── geometry_type
+│             └── polygon_wkt
+│
+└── SQL
+    ├── ddl scripts
+    └── tsql scripts

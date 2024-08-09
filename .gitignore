@@ -1,5 +1,18 @@
-# ignore denormalized sample data
+# Ignore denormalized sample data
 csv/phoenix.csv
 
-# ignore task description file
+# Ignore task description file
 Database Engineer_ Coding Sample Instructions.pdf
+
+# Ignore temporary files created by editors like VSCode
+*.tmp
+
+# Ignore temporary or backup files created by text editor
+*.bak
+*.backup
+python/brands.csv
+python/categories.csv
+python/geometry.csv
+python/locations.csv
+python/operation_hours.csv
+python/primary_locations.csv
