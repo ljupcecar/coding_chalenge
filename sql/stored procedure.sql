@@ -1,16 +1,30 @@
 CREATE OR ALTER PROCEDURE find_pois
-    @country_code VARCHAR(10) = NULL,
-    @region VARCHAR(50) = NULL,
-    @city VARCHAR(100) = NULL,
-    @latitude DECIMAL(10, 7) = NULL,
-    @longitude DECIMAL(10, 7) = NULL,
-    @radius DECIMAL(10, 2) = NULL,
-    @polygon_wkt NVARCHAR(MAX) = NULL,
-    @category VARCHAR(100) = NULL,
-    @poi_name VARCHAR(255) = NULL
+    @json_input NVARCHAR(MAX) -- JSON input parameter
 AS
 BEGIN
     SET NOCOUNT ON;
+
+    DECLARE @country_code VARCHAR(10),
+            @region VARCHAR(50),
+            @city VARCHAR(100),
+            @latitude DECIMAL(10, 7),
+            @longitude DECIMAL(10, 7),
+            @radius DECIMAL(10, 2),
+            @polygon_wkt NVARCHAR(MAX),
+            @category VARCHAR(100),
+            @poi_name VARCHAR(255);
+
+    -- Parse JSON input
+    SELECT 
+        @country_code = JSON_VALUE(@json_input, '$.country_code'),
+        @region = JSON_VALUE(@json_input, '$.region'),
+        @city = JSON_VALUE(@json_input, '$.city'),
+        @latitude = TRY_CAST(JSON_VALUE(@json_input, '$.latitude') AS DECIMAL(10, 7)),
+        @longitude = TRY_CAST(JSON_VALUE(@json_input, '$.longitude') AS DECIMAL(10, 7)),
+        @radius = TRY_CAST(JSON_VALUE(@json_input, '$.radius') AS DECIMAL(10, 2)),
+        @polygon_wkt = JSON_VALUE(@json_input, '$.polygon_wkt'),
+        @category = JSON_VALUE(@json_input, '$.category'),
+        @poi_name = JSON_VALUE(@json_input, '$.poi_name');
 
     BEGIN TRY
         -- Validate inputs
@@ -52,28 +66,29 @@ BEGIN
             END
 
         -- Select POIs based on the validated inputs
-        SELECT 
-            p.id AS poi_id,
-            p.parent_id,
-            l.country_code,
-            l.region,
-            l.city,
-            CONCAT(CAST(l.latitude AS VARCHAR), ', ', CAST(l.longitude AS VARCHAR)) AS location_coordinates,
-            c.top_category,
-            c.sub_category,
-            l.polygon_wkt,
-            l.location_name,
-            l.postal_code,
-            o.hours AS operation_hours
-        FROM 
+        SELECT
+            p.id            as 'Id',
+            p.parent_id     as 'Parent ID',
+            l.country_code  as 'Country code',
+            l.region        as 'Region Code',
+            l.city          as 'City Name',
+            CONCAT(CAST(l.latitude AS VARCHAR), ', ', CAST(l.longitude AS VARCHAR)) AS 'Location coordinates (latitude, longitude)',
+            c.top_category  as 'Category',
+            c.sub_category  as 'Sub category',
+            l.polygon_wkt   as 'WKT Polygon',
+            l.location_name as 'Location Name',
+            l.postal_code   as 'Postal code',
+            o.hours         as 'Operation Hours'
+
+        FROM
             pois p
-        JOIN 
+        JOIN
             locations l ON p.location_id = l.id
-        JOIN 
+        JOIN
             categories c ON p.category_id = c.id
-        LEFT JOIN 
+        LEFT JOIN
             operation_hours o ON p.operation_hours_id = o.id
-        WHERE 
+        WHERE
             (@country_code IS NULL OR l.country_code = @country_code)
             AND (@region IS NULL OR l.region = @region)
             AND (@city IS NULL OR l.city = @city)
@@ -85,9 +100,9 @@ BEGIN
     END TRY
     BEGIN CATCH
         DECLARE @ErrorMessage NVARCHAR(4000), @ErrorSeverity INT, @ErrorState INT;
-        SELECT 
-            @ErrorMessage = ERROR_MESSAGE(), 
-            @ErrorSeverity = ERROR_SEVERITY(), 
+        SELECT
+            @ErrorMessage = ERROR_MESSAGE(),
+            @ErrorSeverity = ERROR_SEVERITY(),
             @ErrorState = ERROR_STATE();
         RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState);
     END CATCH
